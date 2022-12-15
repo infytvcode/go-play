@@ -3,13 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/aerospike/aerospike-client-go"
-	"os"
 	"time"
 )
 
-func ae_main() {
-	as_host := os.Getenv("AS_HOST")
-	client, err := aerospike.NewClient(as_host, 3000)
+func aeMain() {
+	client, err := aerospike.NewClient("52.15.163.71", 3000)
 	if err != nil {
 		fmt.Println("Client: ", err)
 	} else {
