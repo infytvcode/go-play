@@ -6,6 +6,22 @@ import (
 	"net/http"
 )
 
+func cors(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[cors] Request received")
+	io.WriteString(w, "This is my website!\n")
+}
+
+func hlsRedirect(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[cors-redirect] Request received")
+	fmt.Println("Referer:", r.Header.Get("Referer"))
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Location", "https://a56e51f3ad174c1b9e37866c3eba8513.mediatailor.us-east-1.amazonaws.com/v1/master/f762f41d634db2da4cb593a12165e8ff1327583f/SB_SSAI/playlist.m3u8?ads.live=0&ads.avod=1&ads.c=1048&ads.min_ad_duration=6&ads.max_ad_duration=300&ads.pod_duration=300&ads.bidfloor=15&ads.ad_breaks=0,1,2,3,4,5,6,7,8,-1,-1,-1,-1&u=https://media.begenuin.com/temp_video/m3u8s/D3CD1CF4-9231-4653-AEA1-7A6ECDE5E9D4_1647590207238/output.m3u8&ads.t=2039&ads.dnt=0&ads.width=720&ads.height=1280&ads.minimum_duration=1&ads.maximum_duration=120&ads.placement_id=AA18S0301001&ads.app_bundle=com.begenuin.begenuin&ads.app_name=Genuin&ads.user_id=8dbf5a47-5d84-4d36-a49b-51c2dc1cc4de&ads.os=ios&ads.osv=15.2.1&ads.ifa=0969da16-b0ff-414a-a8d3-180fd79d29ae&ads.device_make=Apple&ads.device_model=iPhone&ads.app_store_url=https://apps.apple.com/us/app/genuin/id1511177838")
+	w.WriteHeader(http.StatusFound)
+	// http.Redirect(w, r, "https://a56e51f3ad174c1b9e37866c3eba8513.mediatailor.us-east-1.amazonaws.com/v1/master/f762f41d634db2da4cb593a12165e8ff1327583f/SB_SSAI/playlist.m3u8?ads.live=0&ads.avod=1&ads.c=1048&ads.min_ad_duration=6&ads.max_ad_duration=300&ads.pod_duration=300&ads.bidfloor=15&ads.ad_breaks=0,1,2,3,4,5,6,7,8,-1,-1,-1,-1&u=https://media.begenuin.com/temp_video/m3u8s/D3CD1CF4-9231-4653-AEA1-7A6ECDE5E9D4_1647590207238/output.m3u8&ads.t=2039&ads.dnt=0&ads.width=720&ads.height=1280&ads.minimum_duration=1&ads.maximum_duration=120&ads.placement_id=AA18S0301001&ads.app_bundle=com.begenuin.begenuin&ads.app_name=Genuin&ads.user_id=8dbf5a47-5d84-4d36-a49b-51c2dc1cc4de&ads.os=ios&ads.osv=15.2.1&ads.ifa=0969da16-b0ff-414a-a8d3-180fd79d29ae&ads.device_make=Apple&ads.device_model=iPhone&ads.app_store_url=https://apps.apple.com/us/app/genuin/id1511177838", 302)
+	//https://a56e51f3ad174c1b9e37866c3eba8513.mediatailor.us-east-1.amazonaws.com/v1/master/f762f41d634db2da4cb593a12165e8ff1327583f/SB_SSAI/playlist.m3u8?ads.live=0&ads.avod=1&ads.c=1048&ads.min_ad_duration=6&ads.max_ad_duration=300&ads.pod_duration=300&ads.bidfloor=15&ads.ad_breaks=0,1,2,3,4,5,6,7,8,-1,-1,-1,-1&u=https://media.begenuin.com/temp_video/m3u8s/D3CD1CF4-9231-4653-AEA1-7A6ECDE5E9D4_1647590207238/output.m3u8&ads.t=2039&ads.dnt=0&ads.width=720&ads.height=1280&ads.minimum_duration=1&ads.maximum_duration=120&ads.placement_id=AA18S0301001&ads.app_bundle=com.begenuin.begenuin&ads.app_name=Genuin&ads.user_id=8dbf5a47-5d84-4d36-a49b-51c2dc1cc4de&ads.os=ios&ads.osv=15.2.1&ads.ifa=0969da16-b0ff-414a-a8d3-180fd79d29ae&ads.device_make=Apple&ads.device_model=iPhone&ads.app_store_url=https://apps.apple.com/us/app/genuin/id1511177838
+}
+
 func getRoot(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got / request\n")
 	io.WriteString(w, "This is my website!\n")

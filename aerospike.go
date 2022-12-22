@@ -12,9 +12,41 @@ func aeMain() {
 		fmt.Println("Client: ", err)
 	} else {
 		// singleRead(client)
-		multipleRead(client)
+		// multipleRead(client)
+
+		add(client, 1, "test_2")
 	}
 }
+
+func add(client *aerospike.Client, count int, key_string string) {
+	// Creates a key with the namespace "sandbox", set "ufodata", and user key 5001
+	key, err := aerospike.NewKey("test", "counter", key_string)
+	if err != nil {
+		fmt.Println("add: ", err)
+	}
+
+	// Can use a previously defined write policy or create a new one
+	updatePolicy := aerospike.NewWritePolicy(0, 0)
+	updatePolicy.SendKey = true
+	updatePolicy.RecordExistsAction = aerospike.UPDATE
+
+	// Create bin with new value
+	newPosted := aerospike.NewBin("ssai", count)
+
+	// Update record with new bin value
+	// err = client.PutBins(updatePolicy, key, newPosted)
+	record, err := client.Operate(updatePolicy, key, aerospike.AddOp(newPosted), aerospike.GetOp())
+	if record != nil {
+    fmt.Println("add received: ", record)
+    received := record.Bins[newPosted.Name]
+		fmt.Println("add received: ", received)
+	}
+	if err != nil {
+		fmt.Println("add update: ", err)
+	}
+
+}
+
 func multipleRead(client *aerospike.Client) {
 	// stmt := aerospike.NewStatement("infy_cache", "endpoints")
 
