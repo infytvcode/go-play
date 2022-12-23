@@ -3,7 +3,7 @@ module main
 go 1.16
 
 require (
-	github.com/aerospike/aerospike-client-go v4.5.2+incompatible // indirect
-	github.com/yuin/gopher-lua v0.0.0-20220504180219-658193537a64 // indirect
+	github.com/aerospike/aerospike-client-go/v6 v6.7.0
+	github.com/yuin/gopher-lua v0.0.0-20221210110428-332342483e3f // indirect
 	golang.org/x/sync v0.1.0 // indirect
 )
