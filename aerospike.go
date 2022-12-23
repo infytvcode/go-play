@@ -16,9 +16,45 @@ func aeMain() {
 		//add(client, 1, "test_2")
 		//batchUpdateV6(client)
 		//batchUpdate(client)
-		batchRead(client)
+		//batchRead(client)
+		bR(client)
 		client.Close()
 	}
+}
+
+func bR(client *aerospike.Client) {
+	start := time.Now()
+	stmt := aerospike.NewStatement("infy_cache", "endpoints")
+
+	// Set max records to return
+	queryPolicy := aerospike.NewQueryPolicy()
+	queryPolicy.TotalTimeout = 30 * time.Second
+	queryPolicy.MaxRecords = 10000
+
+	recordSet, err := client.Query(queryPolicy, stmt)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		c := 0
+		// Get the results
+		for records := range recordSet.Results() {
+			if records.Err != nil {
+				//fmt.Println(records.Err.Error())
+				fmt.Println("ERR: ", records.Err.Unwrap())
+				//fmt.Println(records.Err.Trace())
+			}
+
+			if records != nil && records.Record != nil {
+				// Do something
+				//fmt.Printf("Key: %d : %v \n", c, records.Record.Key.String())
+				fmt.Printf("Record: %d : %v \n", c, records.Record.Bins)
+				c++
+			}
+		}
+	}
+	recordSet.Close()
+	defer fmt.Println("V6: ", time.Since(start).String())
 }
 
 func batchRead(client *aerospike.Client) {
